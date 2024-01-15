@@ -1,0 +1,82 @@
+0 7 settable WWDG Window Watchdog interrupt 0x0000 0040
+1 8 settable PVD PVD through EXTI line detection
+2 9 settable TAMP_STAMP Tamper and TimeStamp interrupts
+3 10 settable RTC_WKUP RTC Wakeup interrupt through the
+4 11 settable FLASH Flash global interrupt 0x0000 0050
+5 12 settable RCC RCC global interrupt 0x0000 0054
+6 13 settable EXTI0 EXTI Line0 interrupt 0x0000 0058
+7 14 settable EXTI1 EXTI Line1 interrupt 0x0000 005C
+8 15 settable EXTI2 EXTI Line2 interrupt 0x0000 0060
+9 16 settable EXTI3 EXTI Line3 interrupt 0x0000 0064
+10 17 settable EXTI4 EXTI Line4 interrupt 0x0000 0068
+11 18 settable DMA1_Stream0 DMA1 Stream0 global interrupt 0x0000 006C
+12 19 settable DMA1_Stream1 DMA1 Stream1 global interrupt 0x0000 0070
+13 20 settable DMA1_Stream2 DMA1 Stream2 global interrupt 0x0000 0074
+14 21 settable DMA1_Stream3 DMA1 Stream3 global interrupt 0x0000 0078
+15 22 settable DMA1_Stream4 DMA1 Stream4 global interrupt 0x0000 007C
+16 23 settable DMA1_Stream5 DMA1 Stream5 global interrupt 0x0000 0080
+17 24 settable DMA1_Stream6 DMA1 Stream6 global interrupt 0x0000 0084
+18 25 settable ADC ADC1, ADC2 and ADC3 global
+19 26 settable CAN1_TX CAN1 TX interrupts 0x0000 008C
+20 27 settable CAN1_RX0 CAN1 RX0 interrupts 0x0000 0090
+21 28 settable CAN1_RX1 CAN1 RX1 interrupt 0x0000 0094
+22 29 settable CAN1_SCE CAN1 SCE interrupt 0x0000 0098
+23 30 settable EXTI9_5 EXTI Line[9:5] interrupts 0x0000 009C
+24 31 settable TIM1_BRK_TIM9 TIM1 Break interrupt and TIM9 global
+25 32 settable TIM1_UP_TIM10 TIM1 Update interrupt and TIM10
+26 33 settable TIM1_TRG_COM_TIM11 TIM1 Trigger and Commutation
+27 34 settable TIM1_CC TIM1 Capture Compare interrupt 0x0000 00AC
+28 35 settable TIM2 TIM2 global interrupt 0x0000 00B0
+29 36 settable TIM3 TIM3 global interrupt 0x0000 00B4
+30 37 settable TIM4 TIM4 global interrupt 0x0000 00B8
+31 38 settable I2C1_EV I2C1 event interrupt 0x0000 00BC
+32 39 settable I2C1_ER I2C1 error interrupt 0x0000 00C0
+33 40 settable I2C2_EV I2C2 event interrupt 0x0000 00C4
+34 41 settable I2C2_ER I2C2 error interrupt 0x0000 00C8
+35 42 settable SPI1 SPI1 global interrupt 0x0000 00CC
+36 43 settable SPI2 SPI2 global interrupt 0x0000 00D0
+37 44 settable USART1 USART1 global interrupt 0x0000 00D4
+38 45 settable USART2 USART2 global interrupt 0x0000 00D8
+39 46 settable USART3 USART3 global interrupt 0x0000 00DC
+40 47 settable EXTI15_10 EXTI Line[15:10] interrupts 0x0000 00E0
+41 48 settable RTC_Alarm RTC Alarms (A and B) through EXTI
+42 49 settable OTG_FS_WKUP USB On-The-Go FS Wakeup through
+43 50 settable TIM8_BRK_TIM12 TIM8 Break interrupt and TIM12
+44 51 settable TIM8_UP_TIM13 TIM8 Update interrupt and TIM13
+45 52 settable TIM8_TRG_COM_TIM14 TIM8 Trigger and Commutation
+46 53 settable TIM8_CC TIM8 Capture Compare interrupt 0x0000 00F8
+47 54 settable DMA1_Stream7 DMA1 Stream7 global interrupt 0x0000 00FC
+48 55 settable FSMC FSMC global interrupt 0x0000 0100
+49 56 settable SDIO SDIO global interrupt 0x0000 0104
+50 57 settable TIM5 TIM5 global interrupt 0x0000 0108
+51 58 settable SPI3 SPI3 global interrupt 0x0000 010C
+52 59 settable UART4 UART4 global interrupt 0x0000 0110
+53 60 settable UART5 UART5 global interrupt 0x0000 0114
+54 61 settable TIM6_DAC
+55 62 settable TIM7 TIM7 global interrupt 0x0000 011C
+56 63 settable DMA2_Stream0 DMA2 Stream0 global interrupt 0x0000 0120
+57 64 settable DMA2_Stream1 DMA2 Stream1 global interrupt 0x0000 0124
+58 65 settable DMA2_Stream2 DMA2 Stream2 global interrupt 0x0000 0128
+59 66 settable DMA2_Stream3 DMA2 Stream3 global interrupt 0x0000 012C
+60 67 settable DMA2_Stream4 DMA2 Stream4 global interrupt 0x0000 0130
+61 68 settable ETH Ethernet global interrupt 0x0000 0134
+62 69 settable ETH_WKUP Ethernet Wakeup through EXTI line
+63 70 settable CAN2_TX CAN2 TX interrupts 0x0000 013C
+64 71 settable CAN2_RX0 CAN2 RX0 interrupts 0x0000 0140
+65 72 settable CAN2_RX1 CAN2 RX1 interrupt 0x0000 0144
+66 73 settable CAN2_SCE CAN2 SCE interrupt 0x0000 0148
+67 74 settable OTG_FS USB On The Go FS global interrupt 0x0000 014C
+68 75 settable DMA2_Stream5 DMA2 Stream5 global interrupt 0x0000 0150
+69 76 settable DMA2_Stream6 DMA2 Stream6 global interrupt 0x0000 0154
+70 77 settable DMA2_Stream7 DMA2 Stream7 global interrupt 0x0000 0158
+71 78 settable USART6 USART6 global interrupt 0x0000 015C
+72 79 settable I2C3_EV I2C3 event interrupt 0x0000 0160
+73 80 settable I2C3_ER I2C3 error interrupt 0x0000 0164
+74 81 settable OTG_HS_EP1_OUT USB On The Go HS End Point 1 Out
+75 82 settable OTG_HS_EP1_IN USB On The Go HS End Point 1 In
+76 83 settable OTG_HS_WKUP USB On The Go HS Wakeup through
+77 84 settable OTG_HS USB On The Go HS global interrupt 0x0000 0174
+78 85 settable DCMI DCMI global interrupt 0x0000 0178
+79 86 settable CRYP CRYP crypto global interrupt 0x0000 017C
+80 87 settable HASH_RNG Hash and Rng global interrupt 0x0000 0180
+81 88 settable FPU FPU global interrupt 0x0000 0184
