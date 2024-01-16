@@ -2,7 +2,7 @@ ENTRY(Reset_Handler)
 
 MEMORY {
  flash(rx) : ORIGIN = 0x08000000, LENGTH = 512K	
- sram(rwx) : ORIGIN = 0x20000000, LENGTH = 192K
+ sram(rwx) : ORIGIN = 0x20000000, LENGTH = 112K
 }
 
 _estack = ORIGIN(sram) + LENGTH(sram); /* stack point is in the last address of sram */
