@@ -2,33 +2,33 @@
 
 int main(void);
 
-extern void _estack(void);
-
-__attribute__((naked, noreturn)) void Reset_Handler(void)
+// Startup code
+__attribute__((noreturn, naked)) void Reset_Handler(void)
 {
-	// Link linker symbol
+	// Start and end address of different sections defined in linker.ld
 	extern uint32_t _sdata, _edata, _sbss, _ebss, _sizedata;
 	
-	// Zero-initialize bss section
+	// .bss section, zero initialize variables
 	for(uint32_t *dest = &_sbss; dest < &_ebss; dest++)
 	{
 		*dest = 0;
 	}
 	
-	// Copy data from flash to sram
+	// .data section, copy from flash to sram
 	uint32_t *src = &_sizedata, *dest = &_sdata;
 	while(dest < &_edata)
 	{
-		*dest = *src;
-		dest++; src++;
+		*dest++ = *src++;
 	}
 	
-	// Call main
+	// Call main()
 	main();
 	
-	// Loop forever if main return
-	while(1);
+	// Loop forever if main() return
+	while (1);
 }
+
+extern void _estack(void);
 
 // Vector Handlers: Systems
 __attribute__ ((weak, alias ("Default_Handler"))) void NMI_Handler(void);
