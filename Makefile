@@ -20,7 +20,7 @@ ${ELFFILES}: ${OBJFILES}
 	${CC} ${CFLAG} -c -o $@ $^
 
 build: ${BINFILES}
-	st-flash --reset write $< 0x08000000
+	st-flash --connect-under-reset --freq=1200k write $< 0x08000000
 
 ${BINFILES}: ${ELFFILES}
 	arm-none-eabi-objcopy -O binary $< $@
