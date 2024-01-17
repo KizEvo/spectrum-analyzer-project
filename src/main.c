@@ -1,32 +1,24 @@
 #include <stdint.h>
 #include "gpio.h"
 #include "rcc.h"
+#include "systick.h"
+#include "tim.h"
+#include "nvic.h"
 
 extern int main(void);
 
 void GPIOB_Config(void);
 void RCC_ClocksConfig(void);
-void delay(uint32_t time);
+void TIM_ADC_SampleTime_Config(void);
 
 int main(void)
 {	
-	GPIOB_Config();
 	RCC_ClocksConfig();
-
+	GPIOB_Config();
+	TIM_ADC_SampleTime_Config();
+	
 	while(1)
 	{
-		GPIO_Write(12, B, SET);
-		delay(50000);
-		delay(50000);
-		delay(50000);
-		delay(50000);
-		delay(50000);
-		GPIO_Write(12, B, RESET);
-		delay(50000);
-		delay(50000);
-		delay(50000);
-		delay(50000);
-		delay(50000);
 	}
 	return 0;
 }
@@ -50,9 +42,9 @@ void RCC_ClocksConfig(void)
 	clk_init.PLLQ	 	= 4U;
 	
 	// AHB, APB prescaler
-	prescaler.HPRE 		= 1U;		
-	prescaler.PPRE2		= 2U;		
-	prescaler.PPRE1		= 4U;		
+	prescaler.HPRE 		= 1U;	// 120 / 1
+	prescaler.PPRE2		= 2U;	// 120 / 2 = 60 MHz
+	prescaler.PPRE1		= 4U;	// 120 / 4 = 30 MHz
 	
 	RCC_SystemClockInit(&clk_init, &prescaler);
 }
@@ -72,20 +64,21 @@ void GPIOB_Config(void)
 	GPIO_Init(&led);
 }
 
-void delay(uint32_t time)
+void TIM_ADC_SampleTime_Config(void)
 {
-	uint32_t temp = time;
-	uint32_t temp_2 = time;
-	while(time > 0)
-	{
-		time -= 1;
-		while(temp > 0) 
-		{
-			temp -= 1;
-			while(temp_2 > 0)
-			{
-				temp_2 -= 1;
-			}
-		}
-	}
+	TIM_CounterTypeDef adc_tim;
+	
+	uint16_t sample_time_hz = 1000;
+	// Divide by 2 means the APBx timer clock is multiply by 2 if the APBx prescaler = 1 => x1 else x2
+	adc_tim.PSC = (((STK_Clock * 8) / 2) * 1000000) / sample_time_hz;
+	adc_tim.PSC = adc_tim.PSC - 1;
+	adc_tim.ARR = 500;	// 500ms
+	adc_tim.ARPE = 1;
+	adc_tim.DIR = 0;
+	adc_tim.URS = 1;
+	adc_tim.UIE = 1;
+	
+	RCC_PeripheralClockEnable(APB1, TIM2);
+	NVIC_EnableIRQ(28);
+	TIM_CounterInit(&adc_tim);
 }

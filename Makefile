@@ -7,7 +7,7 @@ ARMFLAG=-mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
 LDFLAG=${ARMFLAG} -Iinc/ -I. -Tlinker.ld -nostartfiles -Wl,-Map=${BUILDPATH}main.map
 CFLAG=-Wall -Wextra ${OPTFLAG} ${ARMFLAG} -Iinc/ -I.
 
-OBJFILES=${SRCPATH}startup.o ${SRCPATH}main.o ${SRCPATH}gpio.o ${SRCPATH}rcc.o 
+OBJFILES=${SRCPATH}startup.o ${SRCPATH}main.o ${SRCPATH}gpio.o ${SRCPATH}rcc.o ${SRCPATH}systick.o ${SRCPATH}tim.o ${SRCPATH}nvic.o
 ELFFILES=${BUILDPATH}main.elf
 BINFILES=${BUILDPATH}build.bin
 
