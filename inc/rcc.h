@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+// Need to specify if you want to use PLL as main system clock, default is HSI = 16 MHz
+#define CLK_FREQ	16U // MHz
+
 enum RCC_SYSCLK_IN		{HSI, HSE, PLLCLK};
 enum RCC_AHB1_CLK_POS	{GPIOAEN, GPIOBEN, GPIOCEN, GPIODEN, GPIOEEN, GPIOFEN, GPIOGEN, GPIOHEN, GPIOIEN, GPIOJEN, GPIOKEN,
 							CRCEN = 12, BKPSRAMEN = 18, CCMDATARAMEN = 20, DMA1EN, DMA2EN, DMA2DEN, ETHMACEN = 25, ETHMACTXEN, ETHMACRXEN,
@@ -23,20 +26,26 @@ typedef struct {
 #define RCC_Address		((RCC_Register *)(0x40023800))
 
 typedef struct {
-	uint16_t PLLN;
+	uint16_t PLLN;			// Main PLL multiplication factor for VCO
 	uint8_t PLLQ;			// Main PLL division factor for USB OTG FS, SDIO, RNG clk
-	uint8_t PLLSRC; 		// Main PLL and audio PLL (PLLI2S) clk source
+	uint8_t PLLSRC; 		// Main PLL and audio PLL (PLLI2S) entrt clock source (HSI or HSE)
 	uint8_t PLLP; 			// Main PLL division factor for main system clock
-	uint8_t PLLM;			// Main PLL multiplication factor for VCO
+	uint8_t PLLM;			// Division factor for the main PLL (PLL) and audio PLL (PLLI2S) input clock
 	uint8_t clock;			// Clock source for main system clock (HSI, HSE, PLLCLK)
-} RCC_SysClkTypeDef;
+} RCC_SysClkTypeDef;		// Entry clock source for main system struct
+
+typedef struct {
+	uint16_t HPRE;			// AHB prescaler
+	uint8_t PPRE2;			// APB high-speed prescaler (APB2) - max clock 84 MHz
+	uint8_t PPRE1;			// APB low-speed prescaler (APB1) - max clock 42 MHz
+} RCC_APBx_AHB_PreTypeDef;  // Prescaler APBx and AHB struct
 
 // ###### PLL clock outputs formulas ######
 // f(VCO clock) = f(PLL clock input) × (PLLN / PLLM)
 // f(PLL general clock output) = f(VCO clock) / PLLP
 // f(USB OTG FS, SDIO, RNG clock output) = f(VCO clock) / PLLQ
 
-void RCC_SystemClockInit(RCC_SysClkTypeDef *rcc);
+void RCC_SystemClockInit(RCC_SysClkTypeDef *rcc, RCC_APBx_AHB_PreTypeDef *prescaler);
 void RCC_PeripheralClockEnable(enum RCC_PERIPHERAL_CLK clock, uint8_t peripheral);
 
 #endif
