@@ -23,5 +23,6 @@ typedef struct {
 
 void GPIO_Init(GPIO_TypeDef *gpio);
 void GPIO_Write(uint8_t pin, enum GPIO_BANK_NAME gpio_bank, enum GPIO_PIN_STATE pin_state);
+void GPIO_Toggle(uint8_t pin, enum GPIO_BANK_NAME gpio_bank);
 
 #endif

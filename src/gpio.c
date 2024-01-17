@@ -27,3 +27,9 @@ void GPIO_Write(uint8_t pin, enum GPIO_BANK_NAME gpio_bank, enum GPIO_PIN_STATE 
 	if (pin_state == RESET) REG->ODR &= ~(1 << pin);
 	else REG->ODR |= (1 << pin);
 }
+
+void GPIO_Toggle(uint8_t pin, enum GPIO_BANK_NAME gpio_bank)
+{
+	GPIO_Register *REG = GPIO_Bank(gpio_bank);
+	REG->ODR ^= (1 << pin);
+}

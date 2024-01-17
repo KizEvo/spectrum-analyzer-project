@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "rcc.h"
 #include "flash_interface.h"
-#include "gpio.h"
+#include "systick.h"
 
 extern void delay(uint32_t time);
 
@@ -48,11 +48,13 @@ void RCC_SystemClockInit(RCC_SysClkTypeDef *rcc, RCC_APBx_AHB_PreTypeDef *presca
 							 (freq_range_mhz <= 90) ? 2 :
 							 (freq_range_mhz <= 120)? 3 :
 							 (freq_range_mhz <= 150)? 4 : 5;
+		// Calculate STK_Clock
+		STK_Clock = ((freq_range_mhz / prescaler->HPRE) / 8);
 		
 		rcc->PLLQ = (rcc->PLLQ < 2 || rcc->PLLQ > 15) ? 0b0100U : rcc->PLLQ;
 		rcc->PLLP = (rcc->PLLP == 2) ? 0b00 :
-					  (rcc->PLLP == 4) ? 0b01 :
-					  (rcc->PLLP == 6) ? 0b10 : 0b11;
+					(rcc->PLLP == 4) ? 0b01 :
+					(rcc->PLLP == 6) ? 0b10 : 0b11;
 		rcc->PLLN = (rcc->PLLN < 50 || rcc->PLLN > 432) ? 0x30 : rcc->PLLN;
 		rcc->PLLM = (rcc->PLLM < 2 || rcc->PLLM > 63) ? 0x10 : rcc->PLLM;
 		
@@ -100,4 +102,5 @@ void RCC_PeripheralClockEnable(enum RCC_PERIPHERAL_CLK clock, uint8_t peripheral
 	RCC_Register *REG = RCC_Address;
 	if(clock == AHB1) REG->AHB1ENR |= (1 << peripheral);
 	else if (clock == APB2) REG->APB2ENR |= (1 << peripheral);
+	else if (clock == APB1) REG->APB1ENR |= (1 << peripheral);
 }
