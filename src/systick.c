@@ -7,7 +7,7 @@ typedef struct {
 
 #define STK_Address ((STK_Register *)(0xE000E010))
 
-uint8_t STK_Clock = 0;
+volatile uint8_t STK_Clock = 0;
 
 // STK Clock source AHB / 8 by default
 // If you change the clock source, change the formula for the STK_Clock global variable in rcc.c

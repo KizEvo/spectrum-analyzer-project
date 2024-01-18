@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-extern uint8_t STK_Clock;
+extern volatile uint8_t STK_Clock;
 
 void delay_us(uint32_t timeInMicroSecond);
 
