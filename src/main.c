@@ -13,14 +13,14 @@ extern int main(void);
 void GPIOB_Config(void);
 void RCC_ClocksConfig(void);
 void TIM_ADC_SampleTime_Config(void);
-//void ADC_Config(void);
+void ADC_Config(void);
 void IIC_Config(void);
 
 int main(void)
 {	
 	RCC_ClocksConfig();
 	GPIOB_Config();
-	//ADC_Config();
+	ADC_Config();
 	TIM_ADC_SampleTime_Config();
 	IIC_Config();
 	OLED_Init();
@@ -118,11 +118,12 @@ void TIM_ADC_SampleTime_Config(void)
 {
 	TIM_CounterTypeDef adc_tim;
 	
-	uint16_t sample_freq_hz = 1000;
+	uint16_t freq = 64000;
 	// Divide by 2 means the APBx timer clock is multiply by 2 if the APBx prescaler = 1 => x1 else x2
-	adc_tim.PSC = (((STK_Clock * 8) / 2) * 1000000) / sample_freq_hz;
+	// 60MHz / freq
+	adc_tim.PSC = (((STK_Clock * 8) / 2) * 1000000) / freq;
 	adc_tim.PSC = adc_tim.PSC - 1;
-	adc_tim.ARR = 500;	// 500ms
+	adc_tim.ARR = 4;	// sample freq of ADC = 1/freq * ARR
 	adc_tim.ARPE = 1;
 	adc_tim.DIR = 0;
 	adc_tim.URS = 1;

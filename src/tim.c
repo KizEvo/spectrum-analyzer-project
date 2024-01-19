@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include "tim.h"
-#include "gpio.h"
 #include "adc.h"
 
 // General purpose TIM2 to TIM5
@@ -35,8 +34,6 @@ void TIM2_Handler(void)
 {
 	TIM2_TIM5_Register *TIM2 = TIM2_Address;
 	ADC_Register *ADC1 = ADC1_Address;
-	// Toggle pin state
-	GPIO_Toggle(12, B);
 	// Start ADC conversion
 	ADC1->CR2 |= (1 << 30);
 	// Clear TIM interrupt flag
