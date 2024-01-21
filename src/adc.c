@@ -61,12 +61,16 @@ void ADC_Init(void)
 	
 	// Wait for few clocks t_STAB
 	delay_us(500);
+	
+	ADC_STATE = ADC_RST;
 }
 
 void ADC_Handler(void)
 {
 	ADC_Register *ADC1 = ADC1_Address;
 	static uint16_t sample_count = 0;
+	// clears ADC EOC flag
+	ADC1->SR &= ~(1 << 1);
 	
 	if(sample_count >= SAMPLES_LENGTH)
 	{
@@ -75,23 +79,15 @@ void ADC_Handler(void)
 	
 	if(sample_count < SAMPLES_LENGTH)
 	{
-		// Store samples
-		uint16_t temp = (ADC1->DR & 0xFFFF) - ADC_MIC_OFFSET;
-		SAMPLES[sample_count] = (float)(temp) * 4096.0 / 3.3;
-		sample_count += 1;
+		if(ADC_STATE == ADC_RST)
+		{
+			int temp = (ADC1->DR & 0xFFFF) - ADC_MIC_OFFSET;
+			SAMPLES[sample_count] = ((float)(temp)) * 3.3 / 4096.0;
+			sample_count += 1;
+		}
 	}
-	
-	if(sample_count == (SAMPLES_LENGTH / 2) - 1)
+	if (sample_count == SAMPLES_LENGTH - 1)
 	{
-		ADC_STATE = ADC_HALF;
-		GPIO_Write(12, B, SET);
+		ADC_STATE = ADC_WAIT;
 	}
-	else if (sample_count == SAMPLES_LENGTH - 1)
-	{
-		ADC_STATE = ADC_FULL;
-		GPIO_Write(12, B, RESET);
-	}
-
-	// clears ADC EOC flag
-	ADC1->SR &= ~(1 << 1);
 }

@@ -12,12 +12,12 @@ typedef struct {
 	volatile uint32_t CSR, CCR, CDR;
 } ADC_COM_Register;
 
-enum ADC_SAMPLE_STAGE {ADC_RST, ADC_HALF, ADC_FULL};
+enum ADC_SAMPLE_STAGE {ADC_RST, ADC_WAIT};
 
 #define ADC_BaseAddress		(0x40012000)
 #define ADC1_Address		((ADC_Register *)(ADC_BaseAddress))
 
-#define SAMPLES_LENGTH 512
+#define SAMPLES_LENGTH 64
 
 extern volatile uint32_t ADC_MIC_OFFSET;
 extern volatile uint8_t ADC_STATE;
