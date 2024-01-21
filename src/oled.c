@@ -127,11 +127,9 @@ void OLED_Init(void)
 	OLED_WRITECOMMAND(0x2E); // Deactivate scroll, so we can access RAM and change scroll setup parameters. /pg.46
 	
 	// Clear garbage data in RAM after deactivating scroll
-	uint8_t level = 1;
 	for(uint8_t i = 1; i <= 128; i++)
 	{
-		if(i < 64) OLED_DrawColumn(level++, i);
-		else OLED_DrawColumn(level--, i);
+		OLED_DrawColumn(0, i);
 	}
 	OLED_UpdateScreen();
 }

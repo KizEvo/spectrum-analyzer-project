@@ -6,5 +6,5 @@
 void OLED_Init(void);
 void OLED_DrawPixel(uint8_t pos_x, uint8_t pos_y);
 void OLED_DrawColumn(uint8_t length, uint8_t pos_x);
-
+void OLED_UpdateScreen(void);
 #endif
