@@ -7,6 +7,8 @@
 #include "adc.h"
 #include "iic.h"
 #include "oled.h"
+#include "fpu.h"
+#include "dft.h"
 
 extern int main(void);
 
@@ -18,14 +20,34 @@ void IIC_Config(void);
 
 int main(void)
 {	
+	// Enable the floating-point unit
+	FPU_Init();
+	
 	RCC_ClocksConfig();
 	GPIOB_Config();
 	ADC_Config();
 	TIM_ADC_SampleTime_Config();
 	IIC_Config();
 	OLED_Init();
-	
-	while(1);
+
+	while(1)
+	{
+		if(ADC_STATE != ADC_RST)
+		{
+			ADC_STATE = ADC_WAIT;
+			dft(SAMPLES, X_Complex, SAMPLES_LENGTH);
+			freqs_normalize(freqs, X_Complex, SAMPLES_LENGTH);
+			uint16_t seg = 0;
+			for(uint16_t i = 0; i < SAMPLES_LENGTH; i++)
+			{
+				OLED_DrawColumn(freqs[i], seg);
+				OLED_DrawColumn(freqs[i], seg + 1);
+				seg += 2;
+			}
+			OLED_UpdateScreen();
+			ADC_STATE = ADC_RST;
+		}
+	}
 	return 0;
 }
 
