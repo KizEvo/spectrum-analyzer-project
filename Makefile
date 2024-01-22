@@ -1,23 +1,24 @@
-SRCPATH=src/
-BUILDPATH=build/
+SRCDIR=src/
+BUILDDIR=build/
 
 CC=arm-none-eabi-gcc
 OPTFLAG=-O0
 ARMFLAG=-mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16
-LDFLAG=${ARMFLAG} -Iinc/ -I. -Tlinker.ld -nostartfiles -Wl,-Map=${BUILDPATH}main.map
+LDFLAG=${ARMFLAG} -Iinc/ -I. -Tlinker.ld -nostartfiles -Wl,-Map=${BUILDDIR}main.map
 CFLAG=-Wall -Wextra ${OPTFLAG} ${ARMFLAG} -Iinc/ -I.
 
-OBJFILES=${SRCPATH}startup.o ${SRCPATH}main.o ${SRCPATH}gpio.o ${SRCPATH}rcc.o ${SRCPATH}systick.o ${SRCPATH}tim.o ${SRCPATH}nvic.o ${SRCPATH}adc.o ${SRCPATH}iic.o ${SRCPATH}oled.o ${SRCPATH}fpu.o ${SRCPATH}dft.o
-ELFFILES=${BUILDPATH}main.elf
-BINFILES=${BUILDPATH}build.bin
+SRCFILES=${shell find ${SRCDIR} -name "*.c"}
+OBJFILES=${patsubst ${SRCDIR}%.c,${BUILDDIR}%.o, ${SRCFILES}}
+ELFFILES=${BUILDDIR}main.elf
+BINFILES=${BUILDDIR}build.bin
 
 all: ${ELFFILES}
 
 ${ELFFILES}: ${OBJFILES}
 	${CC} ${LDFLAG} -o $@ $^
 	
-%.o: %.c
-	${CC} ${CFLAG} -c -o $@ $^
+${OBJFILES}: 
+	${CC} ${CFLAG} -c -o $@ ${patsubst ${BUILDDIR}%.o,${SRCDIR}%.c, $@}
 
 build: ${BINFILES}
 	st-flash --connect-under-reset --freq=1200k write $< 0x08000000
@@ -26,4 +27,4 @@ ${BINFILES}: ${ELFFILES}
 	arm-none-eabi-objcopy -O binary $< $@
 
 clean:
-	rm -rf ${SRCPATH}*.o
+	rm -rf ${OBJFILES} ${ELFFILES} ${BINFILES} ${BUILDDIR}main.map
